@@ -1,0 +1,761 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mental Health Support</title>
+    <style>
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; padding: 24px; background: #f7f7fb; color: #222; }
+      .card { max-width: 720px; margin: 0 auto; background: #fff; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.08); padding: 24px; }
+      h1 { margin: 0 0 8px; font-size: 28px; }
+      p.lead { margin: 0 0 20px; color: #444; }
+      .row { display: flex; gap: 12px; margin-top: 12px; }
+      input, button, textarea { font: inherit; }
+      textarea, input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; background: #fafafa; }
+      button { padding: 12px 16px; border-radius: 8px; border: 0; background: #4f46e5; color: #fff; cursor: pointer; }
+      button.secondary { background: #0ea5e9; }
+      .response { white-space: pre-wrap; background: #fafafa; border: 1px solid #eee; border-radius: 8px; padding: 12px; margin-top: 12px; }
+      .small { color: #666; font-size: 12px; }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Mental Health Support</h1>
+      <p class="lead">{{ welcome_message }}</p>
+
+      <label for="msg" class="small">Type a message</label>
+      <textarea id="msg" rows="3" placeholder="e.g., I'm feeling anxious today"></textarea>
+      <div class="row">
+        <button id="send">Send Text</button>
+        <button id="voice" class="secondary">Send Voice</button>
+        <input id="audio" type="file" accept="audio/*" />
+      </div>
+
+      <div id="out" class="response" style="display:none;"></div>
+    </div>
+
+    <script>
+      const out = document.getElementById('out');
+      const show = (data) => {
+        out.style.display = 'block';
+        out.textContent = JSON.stringify(data, null, 2);
+      };
+
+      document.getElementById('send').onclick = async () => {
+        const message = document.getElementById('msg').value.trim();
+        if (!message) return;
+        const res = await fetch('/chat', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message })
+        });
+        show(await res.json());
+      };
+
+      document.getElementById('voice').onclick = async () => {
+        const f = document.getElementById('audio').files[0];
+        if (!f) { alert('Choose an audio file first'); return; }
+        const fd = new FormData();
+        fd.append('audio', f);
+        const res = await fetch('/voice', { method: 'POST', body: fd });
+        show(await res.json());
+      };
+    </script>
+  </body>
+  </html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Support Chatbot</title>
+    <style>
+        :root {
+            --primary-color: #5046e5;
+            --secondary-color: #f0f4f8;
+            --accent-color: #ff6b6b;
+            --text-color: #333;
+            --light-text: #666;
+            --user-message-color: #5046e5;
+            --bot-message-color: #f0f4f8;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: var(--text-color);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), #7c73e6);
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        
+        .header p {
+            margin: 5px 0 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        
+        .chat-container {
+            height: 400px;
+            overflow-y: auto;
+            padding: 20px;
+            background-color: #fff;
+        }
+        
+        .message {
+            margin: 10px 0;
+            padding: 12px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+            line-height: 1.5;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .user-message {
+            background-color: var(--user-message-color);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .bot-message {
+            background-color: var(--bot-message-color);
+            color: var(--text-color);
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .input-container {
+            display: flex;
+            gap: 10px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+        
+        input[type="text"] {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 14px;
+            outline: none;
+            transition: border 0.3s;
+        }
+        
+        input[type="text"]:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(80, 70, 229, 0.1);
+        }
+        
+        button {
+            padding: 12px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        button:hover {
+            background-color: #3f37b3;
+        }
+        
+        .voice-controls {
+            display: flex;
+            gap: 10px;
+            padding: 0 15px 15px;
+            background-color: #f8f9fa;
+        }
+        
+        .voice-button {
+            background-color: #28a745;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .voice-button:hover {
+            background-color: #218838;
+        }
+        
+        .voice-button.recording {
+            background-color: var(--accent-color);
+            animation: pulse 1.5s infinite;
+        }
+        
+        .voice-button .icon {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: white;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .emotion-indicator {
+            font-size: 0.8em;
+            color: var(--light-text);
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        .crisis-alert {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px;
+            display: none;
+            animation: slideDown 0.4s ease;
+            line-height: 1.6;
+        }
+        
+        @keyframes slideDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        #status {
+            margin-top: 10px;
+            color: var(--light-text);
+            font-style: italic;
+            min-height: 20px;
+            text-align: center;
+            font-size: 13px;
+            padding: 0 15px 15px;
+        }
+        
+        .typing-indicator {
+            display: none;
+            margin: 10px 0;
+            position: relative;
+            padding: 12px 15px;
+            background-color: var(--bot-message-color);
+            border-radius: 18px;
+            max-width: 80%;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .typing-dots {
+            display: flex;
+            gap: 3px;
+            height: 20px;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--light-text);
+            border-radius: 50%;
+            opacity: 0.8;
+        }
+        
+        .typing-dot:nth-child(1) { animation: bounce 1.3s infinite 0.0s; }
+        .typing-dot:nth-child(2) { animation: bounce 1.3s infinite 0.2s; }
+        .typing-dot:nth-child(3) { animation: bounce 1.3s infinite 0.4s; }
+        
+        @keyframes bounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-5px); }
+        }
+        
+        .tools-section {
+            padding: 15px;
+            background-color: white;
+            border-top: 1px solid #eee;
+        }
+        
+        .tools-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--light-text);
+        }
+        
+        .tools-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .tool-button {
+            padding: 8px 12px;
+            background-color: #f0f4f8;
+            border-radius: 18px;
+            font-size: 13px;
+            color: var(--primary-color);
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.2s;
+        }
+        
+        .tool-button:hover {
+            background-color: #e1e6ed;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Mental Health Support Chatbot</h1>
+        <p>A safe space to talk about your feelings and get support</p>
+    </div>
+    
+    <div class="container">
+        <div class="crisis-alert" id="crisisAlert">
+            <strong>Important:</strong> If you're in crisis, please contact emergency services or a crisis helpline immediately:
+            <br>AASRA: 91-9820466726
+            <br>iCall Helpline: 022-25521111
+            <br>National Suicide Prevention Helpline: 9152987821
+        </div>
+        
+        <div class="chat-container" id="chatContainer"></div>
+        
+        <div class="typing-indicator" id="typingIndicator">
+            <div class="typing-dots">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            </div>
+        </div>
+        
+        <div class="tools-section">
+            <div class="tools-title">Quick Prompts:</div>
+            <div class="tools-buttons">
+                <button class="tool-button" onclick="sendQuickMessage('I feel anxious')">I feel anxious</button>
+                <button class="tool-button" onclick="sendQuickMessage('I can\'t sleep well')">I can't sleep well</button>
+                <button class="tool-button" onclick="sendQuickMessage('I feel overwhelmed')">I feel overwhelmed</button>
+                <button class="tool-button" onclick="sendQuickMessage('How can meditation help?')">How can meditation help?</button>
+            </div>
+        </div>
+        
+        <div class="input-container">
+            <input type="text" id="userInput" placeholder="Type your message...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+        
+        <div class="voice-controls">
+            <button id="startVoice" class="voice-button" onclick="toggleVoiceInput()">
+                <span class="icon"></span>
+                <span id="voiceButtonText">Start Voice Input</span>
+            </button>
+            <button id="speakResponse" class="voice-button" onclick="speakLastResponse()">
+                Speak Last Response
+            </button>
+        </div>
+        
+        <div id="status"></div>
+    </div>
+
+    <script>
+        let isRecording = false;
+        let mediaRecorder = null;
+        let audioChunks = [];
+        let audioStream = null;
+        let audioPlayer = new Audio(); // Add audio player for TTS playback
+
+        // Display welcome message when page loads
+        window.onload = function() {
+            const welcomeMessage = "{{ welcome_message|safe }}";
+            if (welcomeMessage) {
+                addMessageWithTypingEffect(welcomeMessage, 'bot', 'positive');
+            }
+        };
+        
+        function sendQuickMessage(message) {
+            document.getElementById('userInput').value = message;
+            sendMessage();
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                addMessage(message, 'user');
+                input.value = '';
+                
+                // Show typing indicator
+                document.getElementById('typingIndicator').style.display = 'block';
+                const chatContainer = document.getElementById('chatContainer');
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+
+                try {
+                    const response = await fetch('/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ message })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    // Hide typing indicator
+                    document.getElementById('typingIndicator').style.display = 'none';
+                    
+                    // Add message with typing effect
+                    addMessageWithTypingEffect(data.response, 'bot', data.emotion);
+                    
+                    if (data.is_crisis) {
+                        showCrisisAlert();
+                    }
+                } catch (error) {
+                    // Hide typing indicator on error
+                    document.getElementById('typingIndicator').style.display = 'none';
+                    console.error('Error sending message:', error);
+                    addMessage('Sorry, I encountered an error. Please try again.', 'bot');
+                }
+            }
+        }
+
+        function addMessage(text, sender, emotion = null) {
+            const chatContainer = document.getElementById('chatContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            messageDiv.textContent = text;
+            
+            if (emotion && emotion !== 'neutral') {
+                const emotionDiv = document.createElement('div');
+                emotionDiv.className = 'emotion-indicator';
+                emotionDiv.textContent = `Detected emotion: ${emotion}`;
+                messageDiv.appendChild(emotionDiv);
+            }
+            
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+        
+        function addMessageWithTypingEffect(text, sender, emotion = null) {
+            const chatContainer = document.getElementById('chatContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            
+            // Split the text into characters or words for typing effect
+            const words = text.split(' ');
+            messageDiv.textContent = '';
+            
+            chatContainer.appendChild(messageDiv);
+            
+            // Type each word with a slight delay
+            let i = 0;
+            const intervalId = setInterval(() => {
+                if (i < words.length) {
+                    messageDiv.textContent += (i > 0 ? ' ' : '') + words[i];
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                    i++;
+                } else {
+                    clearInterval(intervalId);
+                    // Add emotion indicator after typing is complete
+                    if (emotion && emotion !== 'neutral') {
+                        const emotionDiv = document.createElement('div');
+                        emotionDiv.className = 'emotion-indicator';
+                        emotionDiv.textContent = `Detected emotion: ${emotion}`;
+                        messageDiv.appendChild(emotionDiv);
+                    }
+                }
+            }, 30); // Adjust typing speed here
+        }
+
+        function showCrisisAlert() {
+            const alert = document.getElementById('crisisAlert');
+            alert.style.display = 'block';
+        }
+
+        async function toggleVoiceInput() {
+            const button = document.getElementById('startVoice');
+            const status = document.getElementById('status');
+            
+            if (!isRecording) {
+                try {
+                    console.log('Requesting microphone access...');
+                    // First check if the browser supports getUserMedia
+                    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                        throw new Error('Your browser does not support voice recording. Please try using Chrome, Firefox, or Edge.');
+                    }
+
+                    // Request microphone access with specific constraints
+                    audioStream = await navigator.mediaDevices.getUserMedia({
+                        audio: {
+                            echoCancellation: true,
+                            noiseSuppression: true,
+                            autoGainControl: true,
+                            sampleRate: 16000,
+                            channelCount: 1
+                        }
+                    }).catch(error => {
+                        console.error('Microphone access error:', error);
+                        if (error.name === 'NotAllowedError') {
+                            throw new Error('Microphone access was denied. Please allow microphone access in your browser settings and try again.');
+                        } else if (error.name === 'NotFoundError') {
+                            throw new Error('No microphone found. Please connect a microphone and try again.');
+                        } else if (error.name === 'NotReadableError') {
+                            throw new Error('Your microphone is busy or not working properly. Please check if another application is using it.');
+                        } else {
+                            throw new Error(`Error accessing microphone: ${error.message}`);
+                        }
+                    });
+                    
+                    console.log('Microphone access granted, initializing recorder...');
+                    
+                    // Try different MIME types in order of preference
+                    const mimeTypes = [
+                        'audio/webm',
+                        'audio/webm;codecs=opus',
+                        'audio/ogg;codecs=opus',
+                        'audio/mp4'
+                    ];
+                    
+                    let selectedMimeType = null;
+                    for (const mimeType of mimeTypes) {
+                        if (MediaRecorder.isTypeSupported(mimeType)) {
+                            selectedMimeType = mimeType;
+                            break;
+                        }
+                    }
+                    
+                    if (!selectedMimeType) {
+                        throw new Error('No supported audio format found in your browser.');
+                    }
+                    
+                    console.log('Using MIME type:', selectedMimeType);
+                    mediaRecorder = new MediaRecorder(audioStream, {
+                        mimeType: selectedMimeType,
+                        audioBitsPerSecond: 128000
+                    });
+                    
+                    audioChunks = [];
+
+                    mediaRecorder.ondataavailable = (event) => {
+                        if (event.data.size > 0) {
+                            audioChunks.push(event.data);
+                            console.log('Audio chunk received:', event.data.size, 'bytes');
+                        }
+                    };
+
+                    mediaRecorder.onstop = async () => {
+                        console.log('Recording stopped, processing audio...');
+                        try {
+                            const audioBlob = new Blob(audioChunks, { type: selectedMimeType });
+                            console.log('Audio blob created:', audioBlob.size, 'bytes');
+                            await sendVoiceMessage(audioBlob);
+                        } catch (error) {
+                            console.error('Error processing audio:', error);
+                            status.textContent = 'Error processing audio. Please try again.';
+                        } finally {
+                            // Clean up audio stream
+                            if (audioStream) {
+                                audioStream.getTracks().forEach(track => track.stop());
+                                audioStream = null;
+                            }
+                        }
+                    };
+
+                    // Start recording with a small timeslice to get data more frequently
+                    mediaRecorder.start(100);
+                    isRecording = true;
+                    button.classList.add('recording');
+                    document.getElementById('voiceButtonText').textContent = 'Stop Recording';
+                    status.textContent = 'Recording... Speak now';
+                    console.log('Recording started');
+                } catch (error) {
+                    console.error('Error accessing microphone:', error);
+                    status.textContent = error.message || 'Error accessing microphone. Please check permissions and try again.';
+                    
+                    // Reset the button state
+                    isRecording = false;
+                    button.classList.remove('recording');
+                    document.getElementById('voiceButtonText').textContent = 'Start Voice Input';
+                }
+            } else {
+                console.log('Stopping recording...');
+                if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                    mediaRecorder.stop();
+                }
+                isRecording = false;
+                button.classList.remove('recording');
+                document.getElementById('voiceButtonText').textContent = 'Start Voice Input';
+                status.textContent = 'Processing...';
+            }
+        }
+
+        async function sendVoiceMessage(audioBlob) {
+            console.log('Sending voice message to server...');
+            const formData = new FormData();
+            formData.append('audio', audioBlob, 'recording.webm');
+
+            try {
+                const response = await fetch('/voice', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Voice processing failed: ${response.statusText}. ${errorText}`);
+                }
+                
+                const data = await response.json();
+                console.log('Server response:', data);
+                
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                
+                if (!data.text || data.text === "Sorry, I couldn't understand that.") {
+                    document.getElementById('status').textContent = "I couldn't understand that. Please try again.";
+                    return;
+                }
+                
+                addMessage(data.text, 'user');
+                
+                // Show typing indicator
+                document.getElementById('typingIndicator').style.display = 'block';
+                const chatContainer = document.getElementById('chatContainer');
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+                
+                // Get chatbot response
+                const chatResponse = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message: data.text })
+                });
+                
+                if (!chatResponse.ok) {
+                    throw new Error('Failed to get chatbot response: ' + chatResponse.statusText);
+                }
+                
+                const chatData = await chatResponse.json();
+                
+                // Hide typing indicator
+                document.getElementById('typingIndicator').style.display = 'none';
+                
+                // Add message with typing effect
+                addMessageWithTypingEffect(chatData.response, 'bot', chatData.emotion);
+                
+                if (chatData.is_crisis) {
+                    showCrisisAlert();
+                }
+                
+                document.getElementById('status').textContent = 'Voice message processed successfully';
+            } catch (error) {
+                // Hide typing indicator on error
+                document.getElementById('typingIndicator').style.display = 'none';
+                console.error('Error processing voice message:', error);
+                document.getElementById('status').textContent = 'Error processing voice message: ' + error.message;
+            }
+        }
+
+        async function speakLastResponse() {
+            const messages = document.querySelectorAll('.bot-message');
+            if (messages.length > 0) {
+                const lastMessage = messages[messages.length - 1].textContent;
+                const cleanMessage = lastMessage.replace(/Detected emotion:.+$/, '').trim();
+                
+                document.getElementById('status').textContent = 'Speaking...';
+                
+                try {
+                    // Stop any currently playing audio
+                    if (audioPlayer) {
+                        audioPlayer.pause();
+                        audioPlayer = new Audio();
+                    }
+                    
+                    const response = await fetch('/speak', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ text: cleanMessage })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error('Failed to speak response: ' + response.statusText);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (data.error) {
+                        throw new Error(data.error);
+                    }
+                    
+                    if (data.audio) {
+                        // Create and play the audio from base64
+                        const audioSrc = 'data:audio/wav;base64,' + data.audio;
+                        audioPlayer.src = audioSrc;
+                        
+                        audioPlayer.onended = () => {
+                            document.getElementById('status').textContent = 'Speech completed';
+                            setTimeout(() => {
+                                document.getElementById('status').textContent = '';
+                            }, 3000);
+                        };
+                        
+                        audioPlayer.onerror = (e) => {
+                            console.error('Audio playback error:', e);
+                            document.getElementById('status').textContent = 'Error playing audio';
+                        };
+                        
+                        await audioPlayer.play();
+                    } else {
+                        document.getElementById('status').textContent = 'Speech completed';
+                        setTimeout(() => {
+                            document.getElementById('status').textContent = '';
+                        }, 3000);
+                    }
+                } catch (error) {
+                    console.error('Error speaking response:', error);
+                    document.getElementById('status').textContent = 'Error speaking response: ' + error.message;
+                }
+            }
+        }
+
+        // Handle Enter key in input field
+        document.getElementById('userInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html> 

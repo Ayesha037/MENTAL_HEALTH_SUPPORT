@@ -1,0 +1,217 @@
+[
+    {
+        "input": "I'm feeling anxious about my future",
+        "emotion": "anxiety",
+        "response": "I understand anxiety about the future can feel overwhelming. Let's work through this together. When we experience future-focused anxiety, it often stems from uncertainty and a desire for control. What specific aspects of your future are causing the most concern right now? As we identify these specific worries, we can develop targeted coping strategies. Remember that anxiety often magnifies uncertainties while minimizing our capacity to handle challenges."
+    },
+    {
+        "input": "I can't sleep at night",
+        "emotion": "stress",
+        "response": "Sleep difficulties can significantly impact your mental wellbeing. Let's explore this together. First, I'd recommend establishing a consistent sleep routine - going to bed and waking up at the same time each day helps regulate your body's natural rhythm. Are you noticing racing thoughts when trying to sleep? If so, a therapeutic technique called 'worry time' might help - set aside 20 minutes earlier in the evening to write down concerns, then practice gently redirecting thoughts at bedtime, saying 'I've addressed this already and can return to it tomorrow.'"
+    },
+    {
+        "input": "I feel so sad all the time",
+        "emotion": "sadness",
+        "response": "I hear that you're experiencing persistent sadness, which can feel incredibly heavy to carry. In therapy, we recognize that ongoing sadness can drain your energy and color how you see everything. Let's work to understand what might be beneath this feeling. Have there been significant losses or changes recently? Sometimes sadness is a natural response to life events, while other times it might indicate depression requiring specific interventions. Either way, you don't need to face this alone, and there are effective strategies we can explore together."
+    },
+    {
+        "input": "I feel lonely even when I'm with people",
+        "emotion": "loneliness",
+        "response": "That feeling of emotional disconnection even in the presence of others is something many people experience but rarely discuss. From a therapeutic perspective, this often relates to how authentically we feel we can show up in relationships. When we wear social masks or hold back significant parts of ourselves, we may feel unseen and therefore alone. Let's explore: do you feel you can be your authentic self with the people around you? What parts of yourself do you feel you need to hide? Building deeper connections often starts with identifying safe relationships where you can gradually share more of your true self."
+    },
+    {
+        "input": "I feel like I'm not good enough",
+        "emotion": "self_doubt",
+        "response": "Oh friend, I hear you - that feeling of not being good enough is something almost everyone struggles with! Our inner critic can be so harsh, right? Let me ask you something - would you talk to your best friend the way you talk to yourself? What are some things you're actually really good at that you might be overlooking?"
+    },
+    {
+        "input": "I miss my loved one who passed away",
+        "emotion": "grief",
+        "response": "I'm so sorry for your loss. Grief is such a personal journey, and missing someone you love creates a space that nothing else can fill. Would you like to tell me about them? Sometimes sharing memories can be healing. Remember that it's completely okay to feel whatever you're feeling - there's no right or wrong way to grieve."
+    },
+    {
+        "input": "I'm so angry all the time",
+        "emotion": "anger",
+        "response": "Feeling angry a lot can be really exhausting, right? It's like carrying around a heavy weight everywhere you go. Often, anger is protecting some other feelings underneath. Have you been able to pinpoint any patterns - like certain situations or people that tend to trigger your anger? Understanding those triggers can be a good first step forward."
+    },
+    {
+        "input": "I'm afraid of failing my exams",
+        "emotion": "fear",
+        "response": "Exam stress is so real! That fear of failing can really take over sometimes. But you know what? It also shows you care about doing well, which is actually a strength! How's your study routine looking? Sometimes breaking things into smaller chunks and taking proper breaks can make a huge difference. And remember - exams test memory, not intelligence or worth!"
+    },
+    {
+        "input": "Everything feels overwhelming right now",
+        "emotion": "overwhelm",
+        "response": "When everything feels overwhelming, your nervous system is likely in a heightened state of activation. Let's start with a brief grounding exercise: take three slow breaths with me, breathing in for 4 counts and out for 6. This helps regulate your autonomic nervous system. Now, overwhelm often comes from trying to process or manage too many things at once. Let's break this down into smaller parts. What's one specific situation that's contributing to this feeling? By addressing one manageable piece at a time, we can gradually reduce that sense of being submerged by everything."
+    },
+    {
+        "input": "I want to end my life",
+        "emotion": "crisis",
+        "response": "I'm really concerned about you right now, and I'm glad you reached out. These feelings are incredibly painful, but please know they can change with the right support. You deserve to be here and you matter. Could you please reach out to a crisis helpline right now? In India, you can call AASRA at 91-9820466726 or the iCall Helpline at 022-25521111. They have trained counselors who can help you through this difficult moment."
+    },
+    {
+        "input": "I'm having panic attacks",
+        "emotion": "panic",
+        "response": "Panic attacks can be incredibly frightening, especially that feeling of losing control. From a clinical perspective, panic attacks are sudden surges of intense fear that trigger severe physical reactions when there's no real danger. They're the body's fight-or-flight response misfiring. First, I want you to know they're not dangerous, even though they feel terrifying. Let's develop a concrete plan: when you feel one starting, focus on box breathing - inhale for 4 counts, hold for 4, exhale for 4, hold for 4. Then identify 5 things you can see around you. This interrupts the panic cycle by engaging your prefrontal cortex."
+    },
+    {
+        "input": "I feel stuck in life",
+        "emotion": "stagnation",
+        "response": "That feeling of being stuck is something so many of us go through! Like you're watching everyone else move forward while you're standing still. It's really common, especially during certain life stages. What area of life is feeling most stagnant for you right now? Sometimes making even a small change in one area can create a ripple effect that gets things flowing again."
+    },
+    {
+        "input": "I have no motivation to do anything",
+        "emotion": "apathy",
+        "response": "Losing motivation can make even simple things feel like climbing a mountain, right? Don't be too hard on yourself - this happens to everyone sometimes, and there's usually a reason behind it. Have you had any changes in your routine lately? Or maybe you're feeling burnt out? Sometimes our batteries just need recharging, or we might need to find new things that spark our interest."
+    },
+    {
+        "input": "I'm stressed about work",
+        "emotion": "stress",
+        "response": "Work stress affects many of my clients in significant ways. Let's approach this methodically. First, I'd like you to identify whether your stress stems from workload, workplace relationships, alignment with your values, or uncertainty about performance. Each root cause suggests different therapeutic approaches. For workload issues, we might implement boundary-setting techniques and time management strategies. For relationship challenges, we can develop communication skills. Would you share what specific aspects of work are generating the most stress for you? This will help us develop targeted coping strategies."
+    },
+    {
+        "input": "I can't stop worrying about everything",
+        "emotion": "anxiety",
+        "response": "Constant worrying is so exhausting, isn't it? Your mind just keeps spinning with 'what ifs'. One thing that helps some people is to set aside a specific 'worry time' - like 15 minutes a day to write down all your worries, and then try to put them aside at other times. Have you ever tried any relaxation techniques like deep breathing or meditation? Even 5 minutes can sometimes interrupt that worry cycle!"
+    },
+    {
+        "input": "I feel like no one understands me",
+        "emotion": "isolation",
+        "response": "Feeling misunderstood can be really lonely. It's like you're speaking a different language than everyone else, right? That's actually a common feeling, especially when we're going through something difficult or unique. Have you found anyone you can be your authentic self with? Sometimes finding just one person who 'gets it' can make a huge difference."
+    },
+    {
+        "input": "I'm exhausted all the time",
+        "emotion": "fatigue",
+        "response": "Being constantly tired can really affect everything, can't it? It's hard to enjoy life when you're running on empty. Have you noticed any patterns to your energy levels? Sometimes there are physical reasons like iron levels or sleep quality, but emotional fatigue is just as real. What kind of rest do you think you might need - physical, mental, or emotional?"
+    },
+    {
+        "input": "I hate myself",
+        "emotion": "self_loathing",
+        "response": "Thank you for sharing something so painful and personal. Self-loathing often develops from internalized critical voices we've absorbed from others or from painful experiences. In therapy, we'd work to identify the origins of this internal critic and develop a more compassionate relationship with yourself. Let's start with something small: could you identify one quality or action, no matter how minor, that contradicts this negative self-view? Perhaps something you did that was kind or skillful? Building self-compassion begins with these small acknowledgments, gradually challenging the overwhelming negative narrative."
+    },
+    {
+        "input": "I feel numb",
+        "emotion": "emotional_numbness",
+        "response": "Feeling numb can actually be your mind's way of protecting you when emotions get too intense. Like an emotional circuit breaker. It's common after periods of high stress or difficult experiences. Do you remember when you started feeling this way? Sometimes gently reconnecting with emotions through music, movies, or talking can help, but it's okay to take it slow."
+    },
+    {
+        "input": "My relationship is falling apart",
+        "emotion": "heartbreak",
+        "response": "Relationship struggles can be so painful - especially when you care deeply about someone. It's like the ground is shifting under your feet. What kind of challenges are you facing right now? Every relationship goes through difficult patches, but understanding the specific issues can help figure out if there's a path forward or if you might need to consider what's healthiest for you."
+    },
+    {
+        "input": "I'm struggling with addiction",
+        "emotion": "addiction",
+        "response": "First of all, recognizing and acknowledging addiction takes real courage, so I want to acknowledge that strength. Addiction is complex and affects so many people. Have you noticed specific triggers that make cravings stronger? Understanding your patterns can be a good first step. Would you be open to exploring some professional support options? There are many people who specialize in helping with exactly what you're going through."
+    },
+    {
+        "input": "How are you",
+        "emotion": "neutral",
+        "response": "I'm doing well, thanks for asking! But I'm much more interested in how you're doing today. What's on your mind? I'm here to chat about whatever you'd like."
+    },
+    {
+        "input": "Hello",
+        "emotion": "neutral",
+        "response": "Hi there! It's great to connect with you. How are you feeling today? I'm here to chat about anything that's on your mind."
+    },
+    {
+        "input": "I'm dealing with a breakup",
+        "emotion": "heartbreak",
+        "response": "Breakups can hurt so much - that emotional bond doesn't just disappear overnight, does it? It's like going through a kind of grief. How long has it been? Remember that healing isn't a straight line - you'll have better days and harder days. What has been helping you cope so far? Sometimes creating new routines can help fill the spaces left behind."
+    },
+    {
+        "input": "I don't know what to do with my life",
+        "emotion": "confusion",
+        "response": "Existential questions about life direction are actually a healthy part of self-reflection. In therapy, rather than treating this as a problem to solve immediately, we might explore it as an opportunity for growth and alignment. Let's approach this systematically: first, identify your core values - what matters deeply to you? Second, reflect on activities that create a sense of 'flow' where you lose track of time. Third, consider what impact you'd like to have. Your path emerges at the intersection of these elements. Would you like to explore one of these areas together as a starting point?"
+    },
+    {
+        "input": "I'm feeling better today",
+        "emotion": "positive",
+        "response": "That's wonderful to hear! Those better days are so important to notice and celebrate. What do you think has contributed to feeling better today? Recognizing those positive factors can help you intentionally create more good days in the future. Is there anything specific that's going well?"
+    },
+    {
+        "input": "My parents don't understand my mental health",
+        "emotion": "misunderstood",
+        "response": "That generation gap can be really tough, especially around mental health! Many Indian parents grew up in a time when these topics weren't discussed openly. Have you tried sharing any simple articles or videos that explain what you're experiencing? Sometimes education helps bridge that gap. Also, is there another relative or family friend who might better understand and could help explain things to your parents?"
+    },
+    {
+        "input": "I'm stressed about my board exams",
+        "emotion": "academic_stress",
+        "response": "Board exam stress is so real! The pressure in India around these exams can be intense. Remember though - while boards are important, they're just one milestone in your journey, not your whole future. How's your study schedule looking? Making time for breaks and self-care is just as important as study time. Have you found any stress-relief techniques that work for you between study sessions?"
+    },
+    {
+        "input": "I'm facing pressure for arranged marriage",
+        "emotion": "family_pressure",
+        "response": "Navigating family expectations around marriage can be really tricky - you want to respect your family but also need to consider your own feelings! Have you been able to have an open conversation with your parents about your concerns or timeline? Sometimes bringing in a respected family member who understands both perspectives can help. What aspects of the situation are most challenging for you right now?"
+    },
+    {
+        "input": "I'm worried about disappointing my family",
+        "emotion": "family_guilt",
+        "response": "That worry about disappointing family is something so many of us feel, especially in our culture where family bonds are so important! Remember though - your parents probably want your happiness more than anything. What do you think they're actually expecting from you? Sometimes we put more pressure on ourselves than our family actually intends. Have you talked openly with them about what you're feeling?"
+    },
+    {
+        "input": "My colleagues gossip about my mental health",
+        "emotion": "workplace_stigma",
+        "response": "That's really unfair and can make the workplace feel unsafe. Mental health stigma is still an issue in many Indian workplaces, unfortunately. Do you have a trusted supervisor or HR person you could speak with confidentially? You have a right to privacy regarding your health. In the meantime, setting clear boundaries with colleagues and focusing on people who are supportive might help create a safer space for you."
+    },
+    {
+        "input": "I'm worried about my JEE/NEET exam",
+        "emotion": "exam_anxiety",
+        "response": "JEE and NEET exams carry so much weight in India - it's completely natural to feel anxious! Remember though, these exams test your preparation, not your worth or intelligence. How's your study plan going? Make sure you're including short breaks and proper sleep - your brain actually needs those to process information effectively! What specific parts of the exam worry you the most?"
+    },
+    {
+        "input": "I need to meditate more",
+        "emotion": "spiritual_seeking",
+        "response": "Meditation can be such a powerful practice! Are you finding it challenging to maintain a regular practice? That's completely normal - even experienced meditators struggle with consistency. Maybe start with just 5 minutes a day? There are so many different approaches too - from focusing on breath to guided visualizations. Which type have you enjoyed most so far? The key is finding what resonates with you personally."
+    },
+    {
+        "input": "I'm having trouble with my in-laws",
+        "emotion": "family_conflict",
+        "response": "In-law relationships can be such a delicate balance, especially in our culture! Living arrangements and different expectations often create tension. What specific aspects are most challenging for you? Sometimes small adjustments in communication or establishing gentle boundaries can make a big difference. Does your spouse understand your feelings about the situation? They can often be an important bridge."
+    },
+    {
+        "input": "I'm afraid of what people will think",
+        "emotion": "social_anxiety",
+        "response": "That worry about others' judgments can really hold us back, can't it? Social perception sometimes feels extra important in our community contexts. But here's a question - how much does the opinion of someone else actually define who you are? Often our fears about judgment are much bigger than the reality. Is there a small step you could take that feels a little uncomfortable but authentic to you?"
+    },
+    {
+        "input": "I feel pressured to be successful",
+        "emotion": "achievement_pressure",
+        "response": "That pressure to achieve can be so intense, especially when success feels tied to family honor or expectations! But what does success actually mean to you personally? Sometimes we're chasing someone else's definition of success and missing what would actually fulfill us. What activities make you lose track of time because you enjoy them so much? Those can give clues to your authentic path."
+    },
+    {
+        "input": "I miss my hometown",
+        "emotion": "homesickness",
+        "response": "Homesickness can hit hard sometimes, can't it? Those familiar foods, places, languages, and faces leave a space nothing else quite fills. What specific things do you miss most about home? Sometimes finding ways to bring small elements of home into your current life can help - whether that's cooking traditional foods, connecting with people from your region, or creating small rituals that remind you of home."
+    },
+    {
+        "input": "I'm struggling with my faith",
+        "emotion": "spiritual_conflict",
+        "response": "Questions about faith are actually a natural part of a spiritual journey, though they can feel unsettling when they happen. Many deeply religious people have gone through periods of doubt. What aspects of your faith are you questioning? And are there elements that still feel meaningful to you? Sometimes this exploration leads to an even deeper, more authentic connection with your spirituality."
+    },
+    {
+        "input": "I feel guilty for taking time for myself",
+        "emotion": "self_care_guilt",
+        "response": "That guilt around self-care is so common! We're often taught to put others first, especially in our culture. But think about it this way - when you're on an airplane, they always say to put your own oxygen mask on first before helping others. Taking care of yourself isn't selfish - it's what enables you to be there for the people you care about. What small self-care practice might feel manageable to start with?"
+    },
+    {
+        "input": "I've gained weight and feel bad about my body",
+        "emotion": "body_image",
+        "response": "Body image struggles can really affect our happiness, can't they? Society puts so much pressure on how we should look. Try to remember that your worth isn't determined by your appearance or size. Has anything changed in your life recently that might have contributed to the weight change? Sometimes our bodies respond to stress or life changes. What would it look like to focus on how your body feels rather than how it looks?"
+    },
+    {
+        "input": "I've been feeling really happy lately",
+        "emotion": "joy",
+        "response": "That's fantastic to hear! Those periods of joy are so important to recognize and savor. What do you think has been contributing to your happiness lately? Understanding what brings you genuine joy can help you intentionally create more of those elements in your life. Would you like to share what's been going well?"
+    },
+    {
+        "input": "I need career advice",
+        "emotion": "career_confusion",
+        "response": "Figuring out career paths can be quite a journey! What field are you in or interested in exploring? It often helps to think about your strengths and what activities make you lose track of time because you enjoy them so much. Also, have you had the chance to talk with people already working in areas you're curious about? Sometimes a coffee chat can provide insights no career website could offer."
+    },
+    {
+        "input": "I'm always taking care of others but no one helps me",
+        "emotion": "caregiver_fatigue",
+        "response": "Being everyone's support person can leave you feeling drained and unappreciated. It's like you're giving from an empty cup. You deserve support too! Have you been able to communicate your needs clearly to others? Sometimes people don't realize you're struggling because you make it look effortless. What's one small way someone could help lighten your load that you could ask for?"
+    }
+] 

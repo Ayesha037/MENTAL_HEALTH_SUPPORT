@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Support Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f2f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .chat-container {
+            height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            max-width: 70%;
+        }
+        .user-message {
+            background-color: #007bff;
+            color: white;
+            margin-left: auto;
+        }
+        .bot-message {
+            background-color: #e9ecef;
+            color: black;
+        }
+        .input-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .emotion-indicator {
+            font-size: 0.8em;
+            color: #666;
+            margin-top: 5px;
+        }
+        .crisis-alert {
+            background-color: #dc3545;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            display: none;
+        }
+        .voice-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            border-radius: 5px 5px 0 0;
+            background-color: #f8f9fa;
+        }
+        .tab.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .status {
+            text-align: center;
+            margin: 10px 0;
+            font-style: italic;
+            color: #666;
+        }
+        .record-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .record-button .icon {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: red;
+        }
+        .record-button.recording .icon {
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.3;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mental Health Support Chatbot</h1>
+        <div class="crisis-alert" id="crisisAlert">
+            <strong>Important:</strong> If you're in crisis, please contact emergency services or a crisis hotline immediately.
+        </div>
+
+        <div class="tabs">
+            <div class="tab active" data-tab="text">Text Chat</div>
+            <div class="tab" data-tab="voice">Voice Chat</div>
+        </div>
+
+        <div class="chat-container" id="chatContainer"></div>
+        
+        <div class="tab-content active" id="textTab">
+            <div class="input-container">
+                <input type="text" id="userInput" placeholder="Type your message...">
+                <button onclick="sendTextMessage()">Send</button>
+            </div>
+        </div>
+
+        <div class="tab-content" id="voiceTab">
+            <div class="status" id="voiceStatus">Click the button below to start recording your voice</div>
+            <div class="voice-controls">
+                <button class="record-button" id="recordButton" onclick="toggleRecording()">
+                    <span class="icon"></span> Start Recording
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Media recorder variables
+        let mediaRecorder;
+        let audioChunks = [];
+        let isRecording = false;
+
+        // Switch between tabs
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs and tab contents
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                this.classList.add('active');
+                
+                // Show corresponding tab content
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(tabId + 'Tab').classList.add('active');
+            });
+        });
+
+        // Display welcome message when page loads
+        window.onload = function() {
+            const welcomeMessage = "{{ welcome_message|safe }}";
+            if (welcomeMessage) {
+                // Create a proper HTML element to handle potential HTML content
+                const messageElement = document.createElement('div');
+                messageElement.innerHTML = welcomeMessage;
+                addMessageHTML(messageElement.innerHTML, 'bot');
+            }
+        };
+
+        // Text chat functionality
+        async function sendTextMessage() {
+            const input = document.getElementById('userInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                addMessage(message, 'user');
+                input.value = '';
+
+                try {
+                    const response = await fetch('/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ message })
+                    });
+                    
+                    const data = await response.json();
+                    addMessage(data.response, 'bot', data.emotion);
+                    
+                    if (data.is_crisis) {
+                        showCrisisAlert();
+                    }
+                } catch (error) {
+                    console.error('Error sending message:', error);
+                }
+            }
+        }
+
+        // Voice chat functionality
+        async function toggleRecording() {
+            const button = document.getElementById('recordButton');
+            const statusElement = document.getElementById('voiceStatus');
+            
+            if (!isRecording) {
+                // Start recording
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    mediaRecorder = new MediaRecorder(stream);
+                    audioChunks = [];
+
+                    mediaRecorder.ondataavailable = (event) => {
+                        audioChunks.push(event.data);
+                    };
+
+                    mediaRecorder.onstop = async () => {
+                        await processAudio();
+                    };
+
+                    mediaRecorder.start();
+                    isRecording = true;
+                    button.innerHTML = '<span class="icon"></span> Stop Recording';
+                    button.classList.add('recording');
+                    statusElement.textContent = 'Recording... Speak now';
+                } catch (error) {
+                    console.error('Error accessing microphone:', error);
+                    statusElement.textContent = 'Error: Could not access microphone';
+                }
+            } else {
+                // Stop recording
+                if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                    mediaRecorder.stop();
+                    isRecording = false;
+                    button.innerHTML = '<span class="icon"></span> Start Recording';
+                    button.classList.remove('recording');
+                    statusElement.textContent = 'Processing your audio...';
+                }
+            }
+        }
+
+        async function processAudio() {
+            const statusElement = document.getElementById('voiceStatus');
+            
+            try {
+                const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+                
+                // Create form data with audio
+                const formData = new FormData();
+                formData.append('audio', audioBlob);
+                
+                // Send to server
+                const response = await fetch('/voice', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.error) {
+                    statusElement.textContent = `Error: ${data.error}`;
+                    return;
+                }
+                
+                // Add user message
+                if (data.text) {
+                    addMessage(data.text, 'user');
+                    statusElement.textContent = 'Your voice was recognized successfully';
+                }
+                
+                // Add bot response
+                if (data.response) {
+                    addMessage(data.response, 'bot', data.emotion);
+                    
+                    // Play audio response if available
+                    if (data.audio_response) {
+                        playAudioResponse(data.audio_response);
+                    }
+                }
+                
+                // Show crisis alert if needed
+                if (data.is_crisis) {
+                    showCrisisAlert();
+                }
+            } catch (error) {
+                console.error('Error processing audio:', error);
+                statusElement.textContent = 'Error processing your audio';
+            }
+        }
+
+        function playAudioResponse(base64Audio) {
+            const audio = new Audio(`data:audio/wav;base64,${base64Audio}`);
+            audio.play();
+        }
+
+        function addMessageHTML(html, sender, emotion = null) {
+            const chatContainer = document.getElementById('chatContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            messageDiv.innerHTML = html;
+            
+            if (emotion && emotion !== 'neutral') {
+                const emotionDiv = document.createElement('div');
+                emotionDiv.className = 'emotion-indicator';
+                emotionDiv.textContent = `Detected emotion: ${emotion}`;
+                messageDiv.appendChild(emotionDiv);
+            }
+            
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function addMessage(text, sender, emotion = null) {
+            const chatContainer = document.getElementById('chatContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}-message`;
+            messageDiv.textContent = text;
+            
+            if (emotion && emotion !== 'neutral') {
+                const emotionDiv = document.createElement('div');
+                emotionDiv.className = 'emotion-indicator';
+                emotionDiv.textContent = `Detected emotion: ${emotion}`;
+                messageDiv.appendChild(emotionDiv);
+            }
+            
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function showCrisisAlert() {
+            const alert = document.getElementById('crisisAlert');
+            alert.style.display = 'block';
+        }
+
+        // Handle Enter key in input field
+        document.getElementById('userInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendTextMessage();
+            }
+        });
+    </script>
+</body>
+</html> 
