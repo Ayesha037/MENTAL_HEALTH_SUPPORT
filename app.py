@@ -95,22 +95,15 @@ def get_response(message):
         ]
         return random.choice(affirmations)
     
-    # Try-except block to handle any issues
     try:
-        # Check for crisis keywords
         crisis_keywords = ["suicide", "kill myself", "end my life", "don't want to live", "want to die", "harm myself", "hurt myself"]
         is_crisis = any(keyword in message.lower() for keyword in crisis_keywords)
         
         normalized_input = normalize_text_shortcuts(message.lower().strip())
         emotion = classify_emotion(normalized_input)
         
-        # Improved question detection
         is_question = ("?" in normalized_input) or any(normalized_input.startswith(word) for word in 
-                                                     ["what", "how", "why", "can", "could", "when", "where", 
-                                                      "who", "which", "is", "are", "do", "does", "did", 
-                                                      "should", "would", "will"])
-        
-        # Check for greeting
+                                                     ["what", "how", "why", "can", "could", "when", "
         greetings = ["hi", "hello", "hey", "greetings", "howdy", "good morning", "good afternoon", "good evening"]
         if any(greeting in normalized_input.split() for greeting in greetings):
             return random.choice([
@@ -121,11 +114,9 @@ def get_response(message):
                 "Hello! I'm here for you. How's your day going?"
             ]), "neutral", False
         
-        # Crisis response takes precedence
         if is_crisis:
             return "I'm concerned about what you're sharing. If you're in immediate danger, please call emergency services or a crisis helpline right away. Would you like me to provide some crisis resources?", "concerned", True
         
-        # Direct answers to specific mental health questions
         if "depression" in normalized_input and is_question:
             return "Depression is a mental health condition that causes persistent feelings of sadness and loss of interest. It can affect how you feel, think, and handle daily activities. It's more than just feeling sad temporarily - it's a serious medical condition that usually requires treatment. Have you been experiencing symptoms of depression?", "informative", False
         
@@ -146,8 +137,7 @@ def get_response(message):
         
         if "self care" in normalized_input and is_question:
             return "Self-care includes activities that help maintain your physical, emotional, and mental health. It could be as simple as taking a walk, reading a book, or spending time with loved ones. It also includes basics like proper nutrition, exercise, and adequate sleep. What self-care activities do you enjoy or would like to try?", "supportive", False
-        
-        # More detailed emotion-specific responses
+    
         if emotion == "happy":
             if is_question:
                 return f"I'm glad you're feeling good! To answer your question about {get_topic(normalized_input)}: {get_mental_health_info(normalized_input)}. Is there anything else about this that you'd like to explore?", "happy", False
@@ -187,21 +177,19 @@ def get_response(message):
             if is_question:
                 return f"I'm sorry you're feeling disconnected. About your question on {get_topic(normalized_input)}: {get_mental_health_info(normalized_input)}. Feelings of loneliness are common but can be really difficult. Would you like to talk about ways to feel more connected?", "lonely", False
             return "I hear that you're feeling lonely, which can be really painful. Connection is a fundamental human need. What kind of connection are you missing most right now? Sometimes even small interactions or reaching out to one person can help reduce these feelings.", "lonely", False
-
-        # If it's a question but no specific emotion
         if is_question:
             return get_mental_health_info(normalized_input), "informative", False
 
-        # Default neutral response
+        
         return "I appreciate you sharing that with me. I'm here to support you through whatever you're experiencing. What's on your mind right now? Feel free to ask me any questions or just talk about what you're going through.", "neutral", False
     
     except Exception as e:
-        # Fallback response in case of any error
+        
         print(f"Error in get_response: {str(e)}")
         return "I'm here to listen and support you. Could you tell me more about what's on your mind?", "neutral", False
 
 def get_topic(text):
-    """Extract the main topic from the user's question"""
+
     if "depression" in text:
         return "depression"
     elif "anxiety" in text:
@@ -220,8 +208,7 @@ def get_topic(text):
         return "your question"
 
 def get_mental_health_info(text):
-    """Provide relevant mental health information based on the input text"""
-    # Mental health information
+    
     if "depression" in text:
         return "Depression is a common but serious mood disorder that affects how you feel, think, and handle daily activities. It's more than just feeling sad temporarily - it often requires professional support. Symptoms can include persistent sadness, loss of interest in activities, fatigue, and changes in sleep or appetite."
     
@@ -245,12 +232,10 @@ def get_mental_health_info(text):
     
     if "playlist" in text or "music" in text or "calm" in text or "peace" in text or "relax" in text:
         return get_calm_playlist()
-    
-    # If no specific mental health topic is identified
+
     return "I'm here to provide support and information about mental health, emotions, and wellbeing. I can discuss topics like anxiety, depression, stress management, and self-care strategies. Feel free to ask me about any specific concerns you have."
 
 def get_calm_playlist():
-    """Return a suggestion for calming Spotify playlists"""
     playlists = [
         "Peaceful Piano: https://open.spotify.com/playlist/37i9dQZF1DX4sWSpwq3LiO - Perfect for gentle background music while relaxing or working.",
         "Calm Vibes: https://open.spotify.com/playlist/37i9dQZF1DXaImRpG7HXqp - A mix of gentle acoustic and ambient tracks to help you find peace.",
@@ -316,7 +301,6 @@ def get_detailed_breathing_exercise():
     return response
 
 def load_speech_components():
-    """Load the necessary components for speech recognition and synthesis"""
     global recognizer, engine
     try:
         from voice_handler import VoiceHandler
@@ -327,7 +311,6 @@ def load_speech_components():
         print(f"Error loading speech components: {str(e)}")
         return None
 
-# Load the voice handler when the app starts
 voice_handler = load_speech_components()
 
 @app.route('/')
@@ -339,15 +322,13 @@ def chat():
     data = request.json
     message = data.get('message', '')
     
-    # Check if user is specifically asking about breathing exercises
     if any(word in message.lower() for word in ["breathing", "breathe", "breath", "breathing exercise", "calm breathing", "relaxation breathing"]):
         return jsonify({
             'response': get_detailed_breathing_exercise(),
             'emotion': 'calm',
             'is_crisis': False
         })
-    
-    # Check if user is specifically asking for playlists or music
+
     if any(word in message.lower() for word in ["playlist", "music", "spotify", "song", "calm", "relax", "peace"]):
         return jsonify({
             'response': get_calm_playlist(),
@@ -367,14 +348,14 @@ def chat():
 
 @app.route('/voice', methods=['POST'])
 def voice():
-    """Handle voice input from the user"""
+    
     if 'audio' not in request.files:
         return jsonify({'error': 'No audio file provided'}), 400
     
     try:
         audio_file = request.files['audio']
         
-        # Validate that the file has content
+        
         audio_file.seek(0, 2)  # Seek to end
         file_size = audio_file.tell()
         audio_file.seek(0)  # Reset to beginning
@@ -382,24 +363,24 @@ def voice():
         if file_size == 0:
             return jsonify({'error': 'Empty audio file provided'}), 400
         
-        # Process the audio
+        
         if voice_handler:
             try:
-                # Read the audio data
+                
                 audio_data = audio_file.read()
                 
-                # Validate audio data
+                
                 if len(audio_data) < 100:  # Minimum size for valid audio
                     return jsonify({'error': 'Audio file too small or corrupted'}), 400
                 
-                # Convert the audio data to a format that speech_recognition can use
+    
                 try:
                     audio = sr.AudioData(audio_data, sample_rate=16000, sample_width=2)
                 except Exception as e:
                     print(f"Error converting audio data: {str(e)}")
                     return jsonify({'error': 'Invalid audio format. Please try recording again.'}), 400
                 
-                # Recognize speech using Google Speech Recognition
+                 
                 try:
                     text = voice_handler.recognizer.recognize_google(audio)
                 except sr.UnknownValueError:
@@ -408,10 +389,10 @@ def voice():
                     print(f"Google Speech Recognition error: {str(e)}")
                     return jsonify({'error': "Could not request results from speech recognition service. Please check your internet connection and try again."}), 500
                 
-                # Process the text and get response, emotion, and crisis flag
+                
                 response_text, emotion, is_crisis = get_response(text)
                 
-                # Convert response to speech (text-to-speech)
+             
                 try:
                     audio_response = voice_handler.text_to_speech(response_text)
                 except Exception as e:
@@ -453,13 +434,13 @@ def speak():
         return jsonify({'error': f'Error converting text to speech: {str(e)}'}), 500
 
 if __name__ == '__main__':
-    # Load training data
+    # 
     try:
         with open('datasets/processed_training_data.json', 'r', encoding='utf-8') as f:
             training_data = json.load(f)
     except Exception as e:
         print(f"Warning: Could not load training data: {str(e)}")
-        # Create a minimal training data set if the file doesn't exist
+        
         if not os.path.exists('datasets'):
             os.makedirs('datasets')
         
@@ -472,8 +453,7 @@ if __name__ == '__main__':
             with open('datasets/processed_training_data.json', 'w', encoding='utf-8') as f:
                 json.dump(minimal_data, f, indent=2)
             training_data = minimal_data
-    
-    # Load speech components after app initialization
+
     voice_handler = load_speech_components()
     
     app.run(host='0.0.0.0', port=5000, debug=True)
