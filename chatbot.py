@@ -37,22 +37,20 @@ class MentalHealthChatbot:
         }
 
     def get_response(self, user_input, emotion):
-        # Convert user input to lowercase for easier matching
+
         user_input = user_input.lower()
         
-        # Check for greetings
+       
         if any(word in user_input for word in ['hi', 'hello', 'hey']):
             return random.choice(self.responses['greeting'])
         
-        # Check for crisis keywords
+        
         if any(word in user_input for word in ['suicide', 'kill myself', 'end it all', 'want to die']):
             return random.choice(self.responses['crisis'])
-        
-        # Use emotion to select appropriate response category
+    
         if emotion in self.responses:
             return random.choice(self.responses[emotion])
         
-        # Analyze sentiment for more nuanced responses
         sentiment = TextBlob(user_input).sentiment.polarity
         if sentiment < -0.5:
             return random.choice(self.responses['sadness'])
