@@ -31,7 +31,7 @@ def normalize_text_shortcuts(text):
     }
     text = f" {text} "
     for shortcut, full_form in shortcuts.items():
-        text = re.sub(rf'\\b{re.escape(shortcut.strip())}\\b', full_form.strip(), text, flags=re.IGNORECASE)
+        text = re.sub(rf'\b{re.escape(shortcut.strip())}\b', full_form.strip(), text, flags=re.IGNORECASE)
     return text.strip()
 
 def classify_emotion(text):
@@ -102,9 +102,8 @@ def get_response(message):
         normalized_input = normalize_text_shortcuts(message.lower().strip())
         emotion = classify_emotion(normalized_input)
         
-        is_question = ("?" in normalized_input) or any(normalized_input.startswith(word) for word in 
-                                                     ["what", "how", "why", "can", "could", "when", "
-        greetings = ["hi", "hello", "hey", "greetings", "howdy", "good morning", "good afternoon", "good evening"]
+        is_question = ("?" in normalized_input) or any(normalized_input.startswith(word) for word in ["what", "how", "why", "can", "could", "when", "who", "where"])
+        greetings = ["hi", "hello", "hey", "greetings", "howdy", "good afternoon", "good evening"]
         if any(greeting in normalized_input.split() for greeting in greetings):
             return random.choice([
                 "Hello! How are you feeling today?",
@@ -177,6 +176,7 @@ def get_response(message):
             if is_question:
                 return f"I'm sorry you're feeling disconnected. About your question on {get_topic(normalized_input)}: {get_mental_health_info(normalized_input)}. Feelings of loneliness are common but can be really difficult. Would you like to talk about ways to feel more connected?", "lonely", False
             return "I hear that you're feeling lonely, which can be really painful. Connection is a fundamental human need. What kind of connection are you missing most right now? Sometimes even small interactions or reaching out to one person can help reduce these feelings.", "lonely", False
+        
         if is_question:
             return get_mental_health_info(normalized_input), "informative", False
 
@@ -457,4 +457,3 @@ if __name__ == '__main__':
     voice_handler = load_speech_components()
     
     app.run(host='0.0.0.0', port=5000, debug=True)
-    
