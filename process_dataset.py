@@ -8,7 +8,6 @@ def process_kaggle_dataset(csv_path):
         
         df = pd.read_csv(csv_path)
         
-        l
         training_data = []
         
         
