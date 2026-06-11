@@ -21,12 +21,19 @@ User Input (text/voice) → Emotion Analysis → Crisis Detection → Response G
 ## Project Structure
 MENTAL_HEALTH_SUPPORT/
 ├── app.py                  # Main Flask app
+
 ├── chatbot.py              # Core response logic
+
 ├── emotion_analyzer.py     # Emotion classification
+
 ├── crisis_detector.py      # Crisis keyword detection
+
 ├── voice_handler.py        # Speech recognition & TTS
+
 ├── templates/              # HTML frontend
+
 ├── datasets/               # Training/reference data
+
 └── requirements.txt
 
 ## How to Run
